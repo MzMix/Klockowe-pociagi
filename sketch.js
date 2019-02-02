@@ -138,8 +138,8 @@ function createMenuBox() {
         createMyBtn(i, '.pion', null, false);
     }
 
-    createMyBtn(null, '.pion', 'up.png', false);
     createMyBtn(null, '.pion', 'down.png', false);
+    createMyBtn(null, '.pion', 'up.png', false);
 
     for (let i = 0; i < 5; i++) {
         createMyBtn(i, '.poziom', null, false);
