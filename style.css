@@ -48,15 +48,17 @@ body {
 
 .reset {
   width: 100%;
-  /* margin-bottom: 10px; */
   padding: 5px;
 }
 
 .btn {
-  margin: 5px;
+  margin: 3px;
   box-sizing: border-box;
   display: inline-block;
   border: 1px solid black;
+  color: white;
+  padding: 7px;
+  vertical-align: middle;
 }
 
 .btn:hover {

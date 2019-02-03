@@ -38,6 +38,8 @@ class Brick {
         push();
         translate(x, y);
 
+        stroke(255);
+
         if (this.type == 'br') {
             fill(this.color);
             rect(0, 0, this.w, this.h)
@@ -94,9 +96,14 @@ const colors = ['deepskyblue', 'purple', 'red', 'greenyellow', 'darkorange'];
 let picked;
 let counter = 0;
 
-function createMyBtn(i, parent, bcgImg, single) {
+function createMyBtn(i, parent, bcgImg, single, txt) {
     let btn;
-    btn = createDiv(' ');
+    if (txt) {
+        btn = createDiv(txt);
+    } else {
+        btn = createDiv(' ');
+    }
+
 
     if (parent == '.pion' && single == true) {
         btn.size(size, size);
@@ -130,6 +137,8 @@ function selectBrick(val) {
 
 function createMenuBox() {
 
+    createMyBtn(5, '.pion', null, true);
+
     for (let i = 0; i < 5; i++) {
         createMyBtn(i, '.pion', null, true);
     }
@@ -153,6 +162,9 @@ function createMenuBox() {
 }
 
 function createBricks() {
+
+    bricks.push(new Brick(size, size, colors[5], 'br'));
+
     for (let i = 0; i < 5; i++) {
         bricks.push(new Brick(size, size, colors[i], 'br'));
     }
@@ -175,6 +187,7 @@ function createBricks() {
 function setup() {
     let c = createCanvas(641, 321);
     select('.box').child(c);
+    colors.push(color(150));
     createBricks();
     createMenuBox();
 
