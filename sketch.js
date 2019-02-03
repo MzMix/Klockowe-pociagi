@@ -208,7 +208,7 @@ function draw() {
     }
 }
 
-function mousePressed() {
+function mouseClicked() {
     for (s of segments) {
         if (s.checkPointing()) {
             if (picked) {
