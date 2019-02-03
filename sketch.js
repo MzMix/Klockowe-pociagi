@@ -147,6 +147,9 @@ function createMenuBox() {
 
     createMyBtn(null, '.poziom', 'right.png', false);
     createMyBtn(null, '.poziom', 'left.png', false);
+
+    select('.reset').html('<button onclick="redraw()">RESET</button>')
+
 }
 
 function createBricks() {

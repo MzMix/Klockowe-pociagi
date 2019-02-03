@@ -34,7 +34,7 @@ body {
 .box {
   width: 100%;
   min-height: 300px;
-  margin-top: 75px;
+  margin-top: 25px;
   text-align: center;
 }
 
@@ -46,8 +46,14 @@ body {
   background-color: rgba(246, 76, 113, 0.678);
 }
 
+.reset {
+  width: 100%;
+  /* margin-bottom: 10px; */
+  padding: 5px;
+}
+
 .btn {
-  margin: 10px;
+  margin: 5px;
   box-sizing: border-box;
   display: inline-block;
   border: 1px solid black;
@@ -55,77 +61,25 @@ body {
 
 .btn:hover {
   opacity: 0.9;
+  cursor: pointer;
 }
 
 button {
   display: inline-block;
-  position: relative;
+  box-sizing: border-box;
   height: 33px;
   line-height: 33px;
   padding: 0 15px;
   font-size: 15px;
-  color: white;
   text-decoration: none;
-  text-shadow: 0 -1px rgba(0, 0, 0, 0.3);
-  border: 2px solid;
-  border-radius: 7px;
-  outline: 0;
-  -webkit-box-shadow: 0 2px 1px rgba(0, 0, 0, 0.25);
-  box-shadow: 0 2px 1px rgba(0, 0, 0, 0.25);
-}
-
-button:before,
-button:after {
-  content: '';
-  position: absolute;
-}
-
-button:before {
-  top: -5px;
-  bottom: -5px;
-  left: -5px;
-  right: -5px;
-  z-index: -1;
-  border-radius: 9px;
-}
-
-button:after {
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 0;
+  border: 2px solid black;
   border-radius: 7px;
 }
 
-button {
-  background: #6440be;
-  border-color: #4a2f8c #482e89 #3c2672;
-  background-image: -webkit-linear-gradient(top, #825ec9 0%, #7d53c5 50%, #6440be 50%, #482da8 100%);
-  background-image: -moz-linear-gradient(top, #825ec9 0%, #7d53c5 50%, #6440be 50%, #482da8 100%);
-  background-image: -o-linear-gradient(top, #825ec9 0%, #7d53c5 50%, #6440be 50%, #482da8 100%);
-  background-image: linear-gradient(to bottom, #825ec9 0%, #7d53c5 50%, #6440be 50%, #482da8 100%);
-}
-
-button:before {
-  background: #8161d0;
-  background-image: -webkit-linear-gradient(top, #5534a7, #8c6ed8);
-  background-image: -moz-linear-gradient(top, #5534a7, #8c6ed8);
-  background-image: -o-linear-gradient(top, #5534a7, #8c6ed8);
-  background-image: linear-gradient(to bottom, #5534a7, #8c6ed8);
-}
-
+button:hover,
 button:active {
-  background: #7753c5;
-  background-image: -webkit-linear-gradient(top, #432ba0 0%, #714bc2 60%, #7753c5 100%);
-  background-image: -moz-linear-gradient(top, #432ba0 0%, #714bc2 60%, #7753c5 100%);
-  background-image: -o-linear-gradient(top, #432ba0 0%, #714bc2 60%, #7753c5 100%);
-  background-image: linear-gradient(to bottom, #432ba0 0%, #714bc2 60%, #7753c5 100%);
-}
-
-button:active:after {
-  border-color: #7753c5;
+  opacity: 0.9;
+  cursor: pointer;
 }
 
 .footer {
