@@ -69,13 +69,8 @@ body {
 button {
   display: inline-block;
   box-sizing: border-box;
-  height: 33px;
-  line-height: 33px;
-  padding: 0 15px;
-  font-size: 15px;
   text-decoration: none;
-  border: 2px solid black;
-  border-radius: 7px;
+  margin: 5px;
 }
 
 button:hover,
