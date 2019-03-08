@@ -6,7 +6,7 @@ class Segment {
         this.h = h;
     }
 
-    display() {
+    draw() {
         push();
         translate(this.x, this.y);
         fill(150);
@@ -16,13 +16,8 @@ class Segment {
     }
 
     checkPointing() {
-
-        if (mouseX > this.x && mouseX < this.x + this.w &&
-            mouseY > this.y && mouseY < this.y + this.w) {
-            return true;
-        } else {
-            return false;
-        }
+        return mouseX > this.x && mouseX < this.x + this.w &&
+            mouseY > this.y && mouseY < this.y + this.w
     }
 }
 
@@ -34,16 +29,15 @@ class Brick {
         this.type = type;
     }
 
-    draw(x, y) {
+    draw() {
         push();
-        translate(x, y);
-
-        stroke(255);
+        translate(this.x, this.y);
+        noStroke();
 
         if (this.type == 'br') {
             fill(this.color);
             rect(0, 0, this.w, this.h)
-        } else if (this.type == 't0') {
+        } else if (this.type == 't0M') {
             fill(0);
             rect(0, 0, 3 * size, 1 * size);
             fill('white');
@@ -51,7 +45,7 @@ class Brick {
             rect(0 + 2 * size, 0, size, size);
             this.w = 3 * size;
             this.h = size;
-        } else if (this.type == 't1') {
+        } else if (this.type == 't1M') {
             fill(0);
             rect(0, 0, 3 * size, 1 * size);
             fill('white');
@@ -59,7 +53,7 @@ class Brick {
             rect(0, 0, size, size);
             this.w = 3 * size;
             this.h = size;
-        } else if (this.type == 't2') {
+        } else if (this.type == 't2M') {
             fill(0);
             rect(0, 0, 1 * size, 3 * size);
             fill('white');
@@ -67,7 +61,7 @@ class Brick {
             rect(0, 2 * size, size, size);
             this.w = size;
             this.h = 3 * size;
-        } else if (this.type == 't3') {
+        } else if (this.type == 't3M') {
             fill(0);
             rect(0, 0, 1 * size, 3 * size);
             fill('white');
@@ -75,17 +69,45 @@ class Brick {
             rect(0, 0, size, size);
             this.w = size;
             this.h = 3 * size;
+        } else if (this.type == 't0K') {
+            fill(0);
+            rect(0, 0, 3 * size, 1 * size);
+            // fill('yellowgreen');
+            // ellipse(0 + size / 2, size / 2, size - 5);
+            // fill('white');
+            // rect(0 + 2 * size, 0, size, size);
+            this.w = 3 * size;
+            this.h = size;
+        } else if (this.type == 't1K') {
+            fill(0);
+            rect(0, 0, 3 * size, 1 * size);
+            // fill(color(0, 255, 0, 200));
+            // ellipse(2 * size + size / 2, size / 2, size - 5);
+            // fill('white');
+            // rect(0, 0, size, size);
+            this.w = 3 * size;
+            this.h = size;
+        } else if (this.type == 't2K') {
+            fill(0);
+            rect(0, 0, 1 * size, 3 * size);
+            // fill(color(0, 255, 0, 200));
+            // ellipse(size / 2, size / 2, size - 5);
+            // fill('white');
+            // rect(0, 2 * size, size, size);
+            this.w = size;
+            this.h = 3 * size;
+        } else if (this.type == 't3K') {
+            fill(0);
+            rect(0, 0, 1 * size, 3 * size);
+            // fill(color(0, 255, 0, 200));
+            // ellipse(size / 2, 2.5 * size, size - 5);
+            // fill('white');
+            // rect(0, 0, size, size);
+            this.w = size;
+            this.h = 3 * size;
         }
-        pop();
-    }
-    checkPointing() {
 
-        if (mouseX > this.x && mouseX < this.x + this.w &&
-            mouseY > this.y && mouseY < this.y + this.w) {
-            return true;
-        } else {
-            return false;
-        }
+        pop();
     }
 }
 
@@ -93,17 +115,19 @@ let segments = [];
 let bricks = [];
 const size = 40;
 const colors = ['deepskyblue', 'purple', 'red', 'greenyellow', 'darkorange'];
+let imgs = ['Mdown.png', 'Mup.png', 'Mright.png', 'Mleft.png', 'Kdown.png', 'Kup.png', 'Kright.png', 'Kleft.png'];
 let picked;
 let counter = 0;
+let sel;
 
-function createMyBtn(i, parent, bcgImg, single, txt) {
+function createMyBtn(i, parent, bcgImg, single, txt, cls) {
+
     let btn;
     if (txt) {
         btn = createDiv(txt);
     } else {
         btn = createDiv(' ');
     }
-
 
     if (parent == '.pion' && single == true) {
         btn.size(size, size);
@@ -121,8 +145,13 @@ function createMyBtn(i, parent, bcgImg, single, txt) {
         } else {
             btn.size(size * 3, size);
         }
+
     } else {
         btn.style('background-color', colors[i]);
+    }
+
+    if (cls) {
+        btn.addClass(cls);
     }
 
     btn.addClass('btn')
@@ -147,18 +176,31 @@ function createMenuBox() {
         createMyBtn(i, '.pion', null, false);
     }
 
-    createMyBtn(null, '.pion', 'down.png', false);
-    createMyBtn(null, '.pion', 'up.png', false);
-
     for (let i = 0; i < 5; i++) {
         createMyBtn(i, '.poziom', null, false);
     }
+}
 
-    createMyBtn(null, '.poziom', 'right.png', false);
-    createMyBtn(null, '.poziom', 'left.png', false);
+function createTrain() {
+    bricks.push(new Brick(null, null, null, 't3M'));
+    bricks.push(new Brick(null, null, null, 't2M'));
+    bricks.push(new Brick(null, null, null, 't1M'));
+    bricks.push(new Brick(null, null, null, 't0M'));
 
-    select('.reset').html('<button onclick="redraw()">RESET</button>')
+    bricks.push(new Brick(null, null, null, 't3K'));
+    bricks.push(new Brick(null, null, null, 't2K'));
+    bricks.push(new Brick(null, null, null, 't1K'));
+    bricks.push(new Brick(null, null, null, 't0K'));
 
+    createMyBtn(null, '.pion', imgs[0], false, undefined, 'mtm');
+    createMyBtn(null, '.pion', imgs[1], false, undefined, 'mtm');
+    createMyBtn(null, '.poziom', imgs[2], false, undefined, 'mtm');
+    createMyBtn(null, '.poziom', imgs[3], false, undefined, 'mtm');
+
+    createMyBtn(null, '.pion', imgs[4], false, undefined, 'kr');
+    createMyBtn(null, '.pion', imgs[5], false, undefined, 'kr');
+    createMyBtn(null, '.poziom', imgs[6], false, undefined, 'kr');
+    createMyBtn(null, '.poziom', imgs[7], false, undefined, 'kr');
 }
 
 function createBricks() {
@@ -173,15 +215,47 @@ function createBricks() {
         bricks.push(new Brick(1 * size, 2 * size, colors[i], 'br'));
     }
 
-    bricks.push(new Brick(null, null, null, 't3'));
-    bricks.push(new Brick(null, null, null, 't2'));
-
     for (let i = 0; i < 5; i++) {
         bricks.push(new Brick(2 * size, 1 * size, colors[i], 'br'));
     }
 
-    bricks.push(new Brick(null, null, null, 't1'));
-    bricks.push(new Brick(null, null, null, 't0'));
+
+}
+
+function changeSet() {
+
+    let type = sel.value();
+
+    if (type == "Zestaw 1") {
+
+        let btns = selectAll('.mtm');
+        for (let b of btns) {
+            b.style('display', 'inline-block');
+        }
+
+        btns = selectAll('.kr');
+        for (let b of btns) {
+            b.style('display', 'none');
+        }
+
+    } else if (type == "Zestaw 2") {
+
+        let btns = selectAll('.mtm');
+        for (let b of btns) {
+            b.style('display', 'none');
+        }
+
+        btns = selectAll('.kr');
+        for (let b of btns) {
+            b.style('display', 'inline-block');
+        }
+    }
+
+}
+
+function saveImg() {
+    let data = new Date();
+    saveCanvas(`wagony-${data.getHours()}-${data.getMinutes()}-${data.getSeconds()}`, 'png');
 }
 
 function setup() {
@@ -190,29 +264,49 @@ function setup() {
     colors.push(color(150));
     createBricks();
     createMenuBox();
+    createTrain();
 
     for (let i = 0; i < 8; i++) {
         for (let j = 0; j < 16; j++) {
             segments.push(new Segment(j * size, i * size, size, size));
         }
     }
+
+    save = createButton('Zapis do pliku');
+    save.attribute('onclick', 'saveImg()');
+    select('.reset').child(save);
+
+    reset = createButton('Reset');
+    reset.attribute('onclick', 'redraw()');
+    select('.reset').child(reset);
+
+    sel = createSelect();
+    sel.option('Zestaw 1');
+    sel.option('Zestaw 2');
+    sel.changed(changeSet);
+    select('.reset').child(sel);
+
+    changeSet();
+
     noLoop();
 }
 
 function draw() {
-    // background('#2555');
     background('#553D67');
 
     for (let s of segments) {
-        s.display();
+        if (s instanceof Segment) s.draw();
     }
 }
 
 function mouseClicked() {
     for (s of segments) {
-        if (s.checkPointing()) {
+        if (s.checkPointing && s.checkPointing()) {
             if (picked) {
-                picked.draw(s.x, s.y);
+                picked.x = s.x;
+                picked.y = s.y
+                picked.draw();
+                segments.push(picked);
             }
         }
     }
