@@ -1,313 +1,239 @@
-class Segment {
-    constructor(x, y, w, h) {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
-    }
+function addMethodsToObjects() {
 
-    draw() {
-        push();
-        translate(this.x, this.y);
-        fill(150);
-        stroke(255);
-        rect(0, 0, this.w, this.h)
-        pop();
-    }
+    userInterface.generateColorContrainer = function () {
+        this.palette = [];
+        this.pickedColor = '';
+        select(".colorSchemeContainer").html("")
 
-    checkPointing() {
-        return mouseX > this.x && mouseX < this.x + this.w &&
-            mouseY > this.y && mouseY < this.y + this.w
-    }
-}
+        for (let col of settings.colorSchemes[settings.activeColorScheme]) {
 
-class Brick {
-    constructor(w, h, color, type) {
-        this.w = w;
-        this.h = h;
-        this.color = color;
-        this.type = type;
-    }
+            let div = createDiv();
 
-    draw() {
-        push();
-        translate(this.x, this.y);
-        noStroke();
-
-        if (this.type == 'br') {
-            fill(this.color);
-            rect(0, 0, this.w, this.h)
-        } else if (this.type == 't0M') {
-            fill(0);
-            rect(0, 0, 3 * size, 1 * size);
-            fill('white');
-            ellipse(0 + size / 2, size / 2, size - 5);
-            rect(0 + 2 * size, 0, size, size);
-            this.w = 3 * size;
-            this.h = size;
-        } else if (this.type == 't1M') {
-            fill(0);
-            rect(0, 0, 3 * size, 1 * size);
-            fill('white');
-            ellipse(2 * size + size / 2, size / 2, size - 5);
-            rect(0, 0, size, size);
-            this.w = 3 * size;
-            this.h = size;
-        } else if (this.type == 't2M') {
-            fill(0);
-            rect(0, 0, 1 * size, 3 * size);
-            fill('white');
-            ellipse(size / 2, size / 2, size - 5);
-            rect(0, 2 * size, size, size);
-            this.w = size;
-            this.h = 3 * size;
-        } else if (this.type == 't3M') {
-            fill(0);
-            rect(0, 0, 1 * size, 3 * size);
-            fill('white');
-            ellipse(size / 2, 2.5 * size, size - 5);
-            rect(0, 0, size, size);
-            this.w = size;
-            this.h = 3 * size;
-        } else if (this.type == 't0K') {
-            fill(0);
-            rect(0, 0, 3 * size, 1 * size);
-            // fill('yellowgreen');
-            // ellipse(0 + size / 2, size / 2, size - 5);
-            // fill('white');
-            // rect(0 + 2 * size, 0, size, size);
-            this.w = 3 * size;
-            this.h = size;
-        } else if (this.type == 't1K') {
-            fill(0);
-            rect(0, 0, 3 * size, 1 * size);
-            // fill(color(0, 255, 0, 200));
-            // ellipse(2 * size + size / 2, size / 2, size - 5);
-            // fill('white');
-            // rect(0, 0, size, size);
-            this.w = 3 * size;
-            this.h = size;
-        } else if (this.type == 't2K') {
-            fill(0);
-            rect(0, 0, 1 * size, 3 * size);
-            // fill(color(0, 255, 0, 200));
-            // ellipse(size / 2, size / 2, size - 5);
-            // fill('white');
-            // rect(0, 2 * size, size, size);
-            this.w = size;
-            this.h = 3 * size;
-        } else if (this.type == 't3K') {
-            fill(0);
-            rect(0, 0, 1 * size, 3 * size);
-            // fill(color(0, 255, 0, 200));
-            // ellipse(size / 2, 2.5 * size, size - 5);
-            // fill('white');
-            // rect(0, 0, size, size);
-            this.w = size;
-            this.h = 3 * size;
+            div.addClass('paletteBtn');
+            div.style('background-color', col);
+            div.size(1.2 * settings.squareSize, 1.2 * settings.squareSize);
+            div.attribute("onclick", `userInterface.pickColor('${col}')`);
+            select(".colorSchemeContainer").child(div);
+            this.palette.push(div);
         }
-
-        pop();
-    }
-}
-
-let segments = [];
-let bricks = [];
-const size = 40;
-const colors = ['deepskyblue', 'purple', 'red', 'greenyellow', 'darkorange'];
-let imgs = ['Mdown.png', 'Mup.png', 'Mright.png', 'Mleft.png', 'Kdown.png', 'Kup.png', 'Kright.png', 'Kleft.png'];
-let picked;
-let counter = 0;
-let sel;
-
-function createMyBtn(i, parent, bcgImg, single, txt, cls) {
-
-    let btn;
-    if (txt) {
-        btn = createDiv(txt);
-    } else {
-        btn = createDiv(' ');
+        return this;
     }
 
-    if (parent == '.pion' && single == true) {
-        btn.size(size, size);
-    } else if (parent == '.pion' && single != true) {
-        btn.size(size, size * 2);
-    } else {
-        btn.size(size * 2, size);
+    userInterface.pickColor = function (color) {
+        this.pickedColor = color;
+        settings.selectingStarted = false;
     }
 
-    if (bcgImg) {
-        btn.style('background-image', 'url("./icons/' + bcgImg + '")')
-
-        if (parent == '.pion') {
-            btn.size(size, size * 3);
+    Segment.prototype.changeContent = function (val) {
+        if (val) {
+            this.txt = val;
         } else {
-            btn.size(size * 3, size);
+            this.txt = this.basicContent;
+        }
+    }
+    Segment.prototype.basicContent = "";
+
+    Segment.prototype.changeColor = function (val) {
+        if (val) {
+            this.fill = val;
+        } else {
+            this.fill = this.basicFillColor;
+        }
+    }
+    Segment.prototype.basicFillColor = settings.squareFill;
+    Segment.prototype.basicStrokeColor = settings.squareStroke;
+
+    Segment.prototype.colorSegment = function () {
+
+        if (userInterface.pickedColor && (!settings.selectingStarted)) {
+            settings.selectingStarted = !settings.selectingStarted;
+            settings.selectedStartingSeg = this;
+            settings.filling = userInterface.pickedColor;
+
+            this.changeContent("S");
+            this.changeColor(settings.filling);
+        } else {
+            settings.selectingStarted = !settings.selectingStarted;
+            settings.selectedStartingSeg.changeContent();
+            this.changeColor(settings.filling);
+
+            if ((settings.selectedStartingSeg.posKart.x == this.posKart.x) && (settings.selectedStartingSeg.posKart.y == this.posKart.y)) {} else if (settings.selectedStartingSeg.posKart.x == this.posKart.x) {
+
+                if (settings.selectedStartingSeg.num < this.num) {
+
+                    for (let i = settings.selectedStartingSeg.num; i < this.num; i++) {
+                        userInterface.board[i].changeColor(settings.filling);
+                    }
+
+                } else {
+
+                    for (let i = settings.selectedStartingSeg.num - 1; i >= this.num; i--) {
+                        userInterface.board[i].changeColor(settings.filling);
+                    }
+
+                }
+
+            } else if (settings.selectedStartingSeg.posKart.y == this.posKart.y) {
+
+                if (settings.selectedStartingSeg.posKart.x > this.posKart.x) {
+
+                    for (let i = settings.selectedStartingSeg.posKart.x; i >= this.posKart.x; i--) {
+
+                        for (let segment of userInterface.board) {
+                            if (segment.posKart.x == i && segment.posKart.y == settings.selectedStartingSeg.posKart.y) segment.changeColor(settings.filling);
+                        }
+
+                    }
+                } else {
+
+                    for (let i = settings.selectedStartingSeg.posKart.x; i < this.posKart.x; i++) {
+
+                        for (let segment of userInterface.board) {
+                            if (segment.posKart.x == i && segment.posKart.y == settings.selectedStartingSeg.posKart.y) segment.changeColor(settings.filling);
+                        }
+
+                    }
+
+                }
+            }
         }
 
+    }
+
+}
+
+action.showModal = function (value) {
+    let el;
+
+    select(".modal-body").html("");
+
+    switch (value) {
+        case 'changeColorSet':
+
+            this.refreshColorSets();
+
+            select(".modal-title").html("Zestawy kolorów");
+
+            el = createSelect();
+            el.option("Domyślny");
+
+            for (let i = 0; i < settings.colorSchemes.length - 1; i++) {
+                el.option(`Zestaw ${i+1}`);
+            }
+
+            if (settings.currentColorScheme) el.value(settings.currentColorScheme);
+
+            el.addClass("custom-select switchColorScheme");
+
+            el.changed(this.switchColorScheme);
+
+            select(".modal-body").html("");
+            select(".modal-body").child(el);
+
+            break;
+
+        case "addColorScheme":
+            select(".modal-title").html("Dodaj nowy zestaw");
+
+            for (let col of settings.colorSchemes[settings.activeColorScheme]) {
+                let el = createDiv();
+                el.addClass("paletteBtn");
+                el.style("background-color", col);
+                el.size(1.2 * settings.squareSize, 1.2 * settings.squareSize);
+                el.mousePressed(action.newColor(settings.colorSchemes[settings.activeColorScheme].indexOf(col)));
+                select(".modal-body").child(el);
+            }
+
+            select(".modal-body").html("");
+            break;
+
+        default:
+            break;
+    }
+}
+
+action.newSet = function () {
+    action.showModal('addColorScheme')
+}
+
+action.refreshColorSets = function () {
+    settings.colorsSchemesInList = [];
+    for (let i = 0; i < settings.colorSchemes.length - 1; i++) {
+        settings.colorsSchemesInList.push(`Zestaw ${i+1}`);
+    }
+}
+
+action.switchColorScheme = function () {
+    settings["currentColorScheme"] = select(".switchColorScheme").value();
+
+    if (settings.currentColorScheme == "Domyślny") {
+        settings.activeColorScheme = 0;
+        userInterface.generateColorContrainer()
     } else {
-        btn.style('background-color', colors[i]);
-    }
+        let pos = settings.colorsSchemesInList.indexOf(settings.currentColorScheme);
+        pos++;
 
-    if (cls) {
-        btn.addClass(cls);
-    }
-
-    btn.addClass('btn')
-    btn.attribute('onclick', 'selectBrick(' + counter + ')');
-    counter++;
-    select(parent).child(btn);
-}
-
-function selectBrick(val) {
-    picked = bricks[val];
-}
-
-function createMenuBox() {
-
-    createMyBtn(5, '.pion', null, true);
-
-    for (let i = 0; i < 5; i++) {
-        createMyBtn(i, '.pion', null, true);
-    }
-
-    for (let i = 0; i < 5; i++) {
-        createMyBtn(i, '.pion', null, false);
-    }
-
-    for (let i = 0; i < 5; i++) {
-        createMyBtn(i, '.poziom', null, false);
-    }
-}
-
-function createTrain() {
-    bricks.push(new Brick(null, null, null, 't3M'));
-    bricks.push(new Brick(null, null, null, 't2M'));
-    bricks.push(new Brick(null, null, null, 't1M'));
-    bricks.push(new Brick(null, null, null, 't0M'));
-
-    bricks.push(new Brick(null, null, null, 't3K'));
-    bricks.push(new Brick(null, null, null, 't2K'));
-    bricks.push(new Brick(null, null, null, 't1K'));
-    bricks.push(new Brick(null, null, null, 't0K'));
-
-    createMyBtn(null, '.pion', imgs[0], false, undefined, 'mtm');
-    createMyBtn(null, '.pion', imgs[1], false, undefined, 'mtm');
-    createMyBtn(null, '.poziom', imgs[2], false, undefined, 'mtm');
-    createMyBtn(null, '.poziom', imgs[3], false, undefined, 'mtm');
-
-    createMyBtn(null, '.pion', imgs[4], false, undefined, 'kr');
-    createMyBtn(null, '.pion', imgs[5], false, undefined, 'kr');
-    createMyBtn(null, '.poziom', imgs[6], false, undefined, 'kr');
-    createMyBtn(null, '.poziom', imgs[7], false, undefined, 'kr');
-}
-
-function createBricks() {
-
-    bricks.push(new Brick(size, size, colors[5], 'br'));
-
-    for (let i = 0; i < 5; i++) {
-        bricks.push(new Brick(size, size, colors[i], 'br'));
-    }
-
-    for (let i = 0; i < 5; i++) {
-        bricks.push(new Brick(1 * size, 2 * size, colors[i], 'br'));
-    }
-
-    for (let i = 0; i < 5; i++) {
-        bricks.push(new Brick(2 * size, 1 * size, colors[i], 'br'));
-    }
-
-
-}
-
-function changeSet() {
-
-    let type = sel.value();
-
-    if (type == "Zestaw 1") {
-
-        let btns = selectAll('.mtm');
-        for (let b of btns) {
-            b.style('display', 'inline-block');
-        }
-
-        btns = selectAll('.kr');
-        for (let b of btns) {
-            b.style('display', 'none');
-        }
-
-    } else if (type == "Zestaw 2") {
-
-        let btns = selectAll('.mtm');
-        for (let b of btns) {
-            b.style('display', 'none');
-        }
-
-        btns = selectAll('.kr');
-        for (let b of btns) {
-            b.style('display', 'inline-block');
-        }
+        settings.activeColorScheme = pos;
+        userInterface.generateColorContrainer()
     }
 
 }
 
-function saveImg() {
+settings.addValues({
+    activeColorScheme: 0,
+    selectingStarted: false
+})
+
+action.saveImg = function () {
     let data = new Date();
-    saveCanvas(`wagony-${data.getHours()}-${data.getMinutes()}-${data.getSeconds()}`, 'png');
+    saveCanvas(`plansza-${data.getHours()}-${data.getMinutes()}-${data.getSeconds()}`, 'png');
 }
+
+action.hideColorPalette = function () {
+
+    let colPal = select(".colorSchemeContainer")
+    let canvas = select(".canvasDiv")
+
+    if (colPal.style('display') === "none") {
+        colPal.removeClass("invisible");
+        canvas.style("margin", "0");
+    } else {
+        colPal.addClass("invisible");
+        canvas.style("margin", "0 auto 0 auto");
+    }
+
+}
+
+action.resetBoard = function () {
+    for (let s of userInterface.board) {
+        if (!(s instanceof Index)) {
+            s.changeColor();
+        }
+    }
+}
+
+settings.colorSchemes = [
+    ['black', 'deepskyblue', 'purple', 'red', 'greenyellow', 'darkorange', '#D3D3D3']
+];
 
 function setup() {
-    let c = createCanvas(641, 321);
-    select('.box').child(c);
-    colors.push(color(150));
-    createBricks();
-    createMenuBox();
-    createTrain();
+    addMethodsToObjects();
 
-    for (let i = 0; i < 8; i++) {
-        for (let j = 0; j < 16; j++) {
-            segments.push(new Segment(j * size, i * size, size, size));
-        }
+    userInterface.createInterface().generateBoard().generateColorContrainer();
+    for (let segment of userInterface.board) {
+        segment.display();
     }
-
-    save = createButton('Zapis do pliku');
-    save.attribute('onclick', 'saveImg()');
-    select('.reset').child(save);
-
-    reset = createButton('Reset');
-    reset.attribute('onclick', 'redraw()');
-    select('.reset').child(reset);
-
-    sel = createSelect();
-    sel.option('Zestaw 1');
-    sel.option('Zestaw 2');
-    sel.changed(changeSet);
-    select('.reset').child(sel);
-
-    changeSet();
-
     noLoop();
 }
 
 function draw() {
-    background('#553D67');
-
-    for (let s of segments) {
-        if (s instanceof Segment) s.draw();
+    userInterface.refreshBoard();
+    for (let segment of userInterface.board) {
+        segment.display();
     }
 }
 
 function mouseClicked() {
-    for (s of segments) {
-        if (s.checkPointing && s.checkPointing()) {
-            if (picked) {
-                picked.x = s.x;
-                picked.y = s.y
-                picked.draw();
-                segments.push(picked);
-            }
-        }
-    }
+    userInterface.checkBoardClicks();
+    redraw();
 }
