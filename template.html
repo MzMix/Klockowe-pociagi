@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<body>
+
+    <template id="sidebar">
+
+        <div class="sidebar-content">
+            <a href="#submenuPlansza" class="dropdown-toggle" data-toggle="collapse" aria-expanded="false">Plansza</a>
+            <ul class="collapse list-unstyled" id="submenuPlansza">
+                <li class="menuOption"><a href="#" onclick="action.resetBoard()">Reset planszy</a></li>
+            </ul><a href="#submenuUdostępnianie" class="dropdown-toggle" data-toggle="collapse"
+                aria-expanded="false">Udostępnianie</a>
+            <ul class="collapse list-unstyled" id="submenuUdostępnianie">
+                <li class="menuOption"><a href="#" onclick="action.saveImg()">Zapis planszy do pliku</a></li>
+            </ul><a href="#submenuDostosowywanie" class="dropdown-toggle" data-toggle="collapse"
+                aria-expanded="false">Dostosowywanie</a>
+            <ul class="collapse list-unstyled" id="submenuDostosowywanie">
+                <li class="menuOption"><a href="#" onclick="action.hideColorPalette()">Ukryj paletę barw</a></li>
+            </ul>
+        </div>
+
+        </div>
+
+    </template>
+
+</body>
+
+</html>

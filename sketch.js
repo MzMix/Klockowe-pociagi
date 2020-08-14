@@ -104,30 +104,26 @@ function addMethodsToObjects() {
 
 action.showModal = function (value) {
     let el;
-
-    select(".modal-body").html("");
+    select(".modal-dialog").html("");
 
     switch (value) {
         case 'changeColorSet':
 
-            this.refreshColorSets();
+            templatka = templateHTML.querySelector("#changeColorSet");
+            clone = templatka.content.cloneNode(true);
+            insert = clone.querySelector(".modal-content");
+            select(".modal-dialog").child(insert);
 
-            select(".modal-title").html("Zestawy kolorów");
+            this.refreshColorSets();
 
             el = createSelect();
             el.option("Domyślny");
-
             for (let i = 0; i < settings.colorSchemes.length - 1; i++) {
                 el.option(`Zestaw ${i+1}`);
             }
-
             if (settings.currentColorScheme) el.value(settings.currentColorScheme);
-
             el.addClass("custom-select switchColorScheme");
-
             el.changed(this.switchColorScheme);
-
-            select(".modal-body").html("");
             select(".modal-body").child(el);
 
             break;
