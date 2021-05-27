@@ -1,3 +1,15 @@
+let loadedFile;
+
+function handleFile(file) {
+
+    if (file.type == 'application' && file.subtype == 'json') {
+
+        let fileData = file.data;
+        loadJSON(fileData, action.updateColors, action.rejectedFile);
+
+    }
+}
+
 function addMethodsToObjects() {
 
     userInterface.generateColorContrainer = function () {
@@ -18,6 +30,29 @@ function addMethodsToObjects() {
         }
         return this;
     }
+
+    UserInterface.prototype.addCustomColorSet = function () {
+        print('tak');
+        let newColorSet = [];
+
+        for (let i = 0; i < settings.colorMatrix.length; i++) {
+            let picker = select(`.picker${i}`);
+
+            newColorSet.push(picker.value());
+        }
+        newColorSet.push('#C0C0C0');
+
+        settings.colorSchemes.push(newColorSet);
+        action.refreshColorSets();
+
+        let val;
+        for (let i = 0; i < settings.colorSchemes.length - 1; i++) {
+            val = `Zestaw ${i+1}`;
+        }
+        settings["currentColorScheme"] = val;
+        action.switchColorScheme(true);
+    }
+
 
     userInterface.pickColor = function (color) {
         this.pickedColor = color;
@@ -102,6 +137,23 @@ function addMethodsToObjects() {
 
 }
 
+action.updateColors = function (givenJson) {
+
+    if (givenJson.setsOfColors.length > 2) {
+        //Mamy dodaną własną paletę
+
+        for (let i = 2; i < givenJson.setsOfColors.length; i++) {
+            settings.colorSchemes.push(givenJson.setsOfColors[i].colors);
+        }
+
+    }
+    action.refreshColorSets
+}
+
+action.rejectedFile = function () {
+    alert("Wybrano nieprawidłowy plik!");
+}
+
 action.showModal = function (value) {
     let el;
     select(".modal-dialog").html("");
@@ -128,28 +180,47 @@ action.showModal = function (value) {
 
             break;
 
-        case "addColorScheme":
-            select(".modal-title").html("Dodaj nowy zestaw");
+        case 'addCustomColorSet':
+            $('#modal').modal('show');
 
-            for (let col of settings.colorSchemes[settings.activeColorScheme]) {
-                let el = createDiv();
-                el.addClass("paletteBtn");
-                el.style("background-color", col);
-                el.size(1.2 * settings.squareSize, 1.2 * settings.squareSize);
-                el.mousePressed(action.newColor(settings.colorSchemes[settings.activeColorScheme].indexOf(col)));
+            templatka = templateHTML.querySelector("#addCustomColorSet");
+            clone = templatka.content.cloneNode(true);
+            insert = clone.querySelector(".modal-content");
+            select(".modal-dialog").child(insert);
+
+            for (let col of settings.colorMatrix) {
+
+                let num = 1 + settings.colorMatrix.indexOf(col)
+                if (num < 10) num = '0' + num.toString();
+                let el = createP(`Kolor ${num}: `);
+
+                let picker = createColorPicker(col);
+
+                picker.addClass(`colorPicker picker${settings.colorMatrix.indexOf(col)}`);
+
+                picker.parent(el);
                 select(".modal-body").child(el);
             }
+            break;
 
-            select(".modal-body").html("");
+        case 'loadColorsFromFile':
+            $('#modal').modal('show');
+
+            templatka = templateHTML.querySelector("#loadColorsFromFile");
+            clone = templatka.content.cloneNode(true);
+            insert = clone.querySelector(".modal-content");
+            select(".modal-dialog").child(insert);
+
+            let input = createFileInput(handleFile, false);
+            input.attribute("accept", "application/json");
+
+            select(".modal-body").child(input);
+
             break;
 
         default:
             break;
     }
-}
-
-action.newSet = function () {
-    action.showModal('addColorScheme')
 }
 
 action.refreshColorSets = function () {
@@ -159,20 +230,24 @@ action.refreshColorSets = function () {
     }
 }
 
-action.switchColorScheme = function () {
-    settings["currentColorScheme"] = select(".switchColorScheme").value();
+action.switchColorScheme = function (dontChange) {
+
+    if (dontChange != true) settings["currentColorScheme"] = select(".switchColorScheme").value();
 
     if (settings.currentColorScheme == "Domyślny") {
         settings.activeColorScheme = 0;
-        userInterface.generateColorContrainer()
     } else {
         let pos = settings.colorsSchemesInList.indexOf(settings.currentColorScheme);
         pos++;
 
         settings.activeColorScheme = pos;
-        userInterface.generateColorContrainer()
     }
 
+    for (let s of userInterface.board) {
+        s.changeColor(settings.colorSchemes[settings.activeColorScheme][s.txt - 1])
+    }
+
+    userInterface.generateColorContrainer();
 }
 
 settings.addValues({
@@ -180,9 +255,55 @@ settings.addValues({
     selectingStarted: false
 })
 
+action.saveColorSets = function () {
+
+    let json = {};
+    let listOfSets = [];
+    let colorsToSave = [];
+
+    for (let i = 0; i < settings.colorSchemes.length; i++) {
+
+        for (let color of settings.colorSchemes[i]) {
+            if (color != "#C0C0C0") colorsToSave.push(color)
+        }
+
+        name = `set${i}`;
+
+        listOfSets.push({
+            name: name,
+            colors: colorsToSave
+        });
+
+        colorsToSave = [];
+    }
+
+    json.setsOfColors = listOfSets;
+    saveJSON(json, "kolory");
+}
+
+function formatSingleDigitNumber(number) {
+
+    if (number >= 10) {
+        return number;
+    } else {
+        number = '0' + number;
+        return number;
+    }
+
+}
+
 action.saveImg = function () {
     let data = new Date();
-    saveCanvas(`plansza-${data.getHours()}-${data.getMinutes()}-${data.getSeconds()}`, 'png');
+
+    let year, month, day, hours, minutes, seconds;
+    year = data.getFullYear();
+    month = data.getMonth() + 1;
+    day = data.getDate();
+    hours = data.getHours();
+    minutes = data.getMinutes();
+    seconds = data.getSeconds();
+
+    saveCanvas(`plansza-${formatSingleDigitNumber(year)}-${formatSingleDigitNumber(month)}-${formatSingleDigitNumber(day)}-${formatSingleDigitNumber(hours)}-${formatSingleDigitNumber(minutes)}-${formatSingleDigitNumber(seconds)}`, 'png');
 }
 
 action.hideColorPalette = function () {
@@ -208,9 +329,20 @@ action.resetBoard = function () {
     }
 }
 
+action.resetBoard = function () {
+    for (let s of userInterface.board) {
+        s.retriveBasicValues()
+        s.changeColor();
+    }
+}
+
 settings.colorSchemes = [
-    ['black', 'deepskyblue', 'purple', 'red', 'greenyellow', 'darkorange', '#D3D3D3']
+    ['black', 'deepskyblue', 'purple', 'red', 'greenyellow', 'darkorange', '#D3D3D3'],
+    ['red', 'green', 'blue', 'yellow', 'pink', 'gray', '#D3D3D3']
 ];
+
+settings.colorMatrix = settings.colorSchemes[1];
+settings.colorMatrix.pop();
 
 function setup() {
     addMethodsToObjects();
