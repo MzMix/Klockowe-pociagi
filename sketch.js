@@ -31,16 +31,22 @@ function addMethodsToObjects() {
         return this;
     }
 
+    UserInterface.prototype.loadSave = function () {
+
+    }
+
     UserInterface.prototype.addCustomColorSet = function () {
         print('tak');
         let newColorSet = [];
 
-        for (let i = 0; i < settings.colorMatrix.length; i++) {
+        for (let i = 0; i < settings.colorMatrix.length - 1; i++) {
             let picker = select(`.picker${i}`);
 
             newColorSet.push(picker.value());
         }
-        newColorSet.push('#C0C0C0');
+        if (!(newColorSet[newColorSet.length - 1] == '#d3d3d3')) {
+            newColorSet.push('#D3D3D3');
+        }
 
         settings.colorSchemes.push(newColorSet);
         action.refreshColorSets();
@@ -71,6 +77,7 @@ function addMethodsToObjects() {
     Segment.prototype.changeColor = function (val) {
         if (val) {
             this.fill = val;
+            this.oldColId = settings.colorSchemes[settings.activeColorScheme].indexOf(val);
         } else {
             this.fill = this.basicFillColor;
         }
@@ -147,7 +154,7 @@ action.updateColors = function (givenJson) {
         }
 
     }
-    action.refreshColorSets
+    action.refreshColorSets();
 }
 
 action.rejectedFile = function () {
@@ -188,11 +195,14 @@ action.showModal = function (value) {
             insert = clone.querySelector(".modal-content");
             select(".modal-dialog").child(insert);
 
-            for (let col of settings.colorMatrix) {
+            for (let i = 0; i < settings.colorMatrix.length - 1; i++) {
+
+                let col = settings.colorMatrix[i];
 
                 let num = 1 + settings.colorMatrix.indexOf(col)
                 if (num < 10) num = '0' + num.toString();
                 let el = createP(`Kolor ${num}: `);
+                print(col)
 
                 let picker = createColorPicker(col);
 
@@ -228,6 +238,8 @@ action.refreshColorSets = function () {
     for (let i = 0; i < settings.colorSchemes.length - 1; i++) {
         settings.colorsSchemesInList.push(`Zestaw ${i+1}`);
     }
+
+    print(settings.colorsSchemesInList);
 }
 
 action.switchColorScheme = function (dontChange) {
@@ -244,7 +256,13 @@ action.switchColorScheme = function (dontChange) {
     }
 
     for (let s of userInterface.board) {
-        s.changeColor(settings.colorSchemes[settings.activeColorScheme][s.txt - 1])
+        // s.changeColor(settings.colorSchemes[settings.activeColorScheme][s.txt - 1])
+        // let oldColor = s.fill;
+        // let oldColorPos = 
+        s.changeColor(settings.colorSchemes[settings.activeColorScheme][s.oldColId])
+        // s.changeColor('red')
+        // s.display();
+
     }
 
     userInterface.generateColorContrainer();
@@ -267,7 +285,7 @@ action.saveColorSets = function () {
             if (color != "#C0C0C0") colorsToSave.push(color)
         }
 
-        name = `set${i}`;
+        let name = `set${i}`;
 
         listOfSets.push({
             name: name,
@@ -323,22 +341,13 @@ action.hideColorPalette = function () {
 
 action.resetBoard = function () {
     for (let s of userInterface.board) {
-        if (!(s instanceof Index)) {
-            s.changeColor();
-        }
-    }
-}
-
-action.resetBoard = function () {
-    for (let s of userInterface.board) {
-        s.retriveBasicValues()
         s.changeColor();
     }
 }
 
 settings.colorSchemes = [
     ['black', 'deepskyblue', 'purple', 'red', 'greenyellow', 'darkorange', '#D3D3D3'],
-    ['red', 'green', 'blue', 'yellow', 'pink', 'gray', '#D3D3D3']
+    ['red', 'green', 'blue', 'yellow', 'pink', 'gray', '#D3D3D3', '#D3D3D3']
 ];
 
 settings.colorMatrix = settings.colorSchemes[1];
