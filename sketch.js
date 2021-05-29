@@ -180,9 +180,29 @@ settings.addValues({
     selectingStarted: false
 })
 
+function formatSingleDigitNumber(number) {
+
+    if (number >= 10) {
+        return number;
+    } else {
+        number = '0' + number;
+        return number;
+    }
+
+}
+
 action.saveImg = function () {
     let data = new Date();
-    saveCanvas(`plansza-${data.getHours()}-${data.getMinutes()}-${data.getSeconds()}`, 'png');
+
+    let year, month, day, hours, minutes, seconds;
+    year = data.getFullYear();
+    month = data.getMonth() + 1;
+    day = data.getDate();
+    hours = data.getHours();
+    minutes = data.getMinutes();
+    seconds = data.getSeconds();
+
+    saveCanvas(`plansza-${formatSingleDigitNumber(year)}-${formatSingleDigitNumber(month)}-${formatSingleDigitNumber(day)}-${formatSingleDigitNumber(hours)}-${formatSingleDigitNumber(minutes)}-${formatSingleDigitNumber(seconds)}`, 'png');
 }
 
 action.hideColorPalette = function () {
