@@ -36,7 +36,7 @@ function addMethodsToObjects() {
     }
 
     UserInterface.prototype.addCustomColorSet = function () {
-        print('tak');
+        // print('tak');
         let newColorSet = [];
 
         for (let i = 0; i < settings.colorMatrix.length - 1; i++) {
@@ -202,7 +202,7 @@ action.showModal = function (value) {
                 let num = 1 + settings.colorMatrix.indexOf(col)
                 if (num < 10) num = '0' + num.toString();
                 let el = createP(`Kolor ${num}: `);
-                print(col)
+                // print(col)
 
                 let picker = createColorPicker(col);
 
@@ -239,7 +239,7 @@ action.refreshColorSets = function () {
         settings.colorsSchemesInList.push(`Zestaw ${i+1}`);
     }
 
-    print(settings.colorsSchemesInList);
+    // print(settings.colorsSchemesInList);
 }
 
 action.switchColorScheme = function (dontChange) {
