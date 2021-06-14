@@ -1,3 +1,15 @@
+let loadedFile;
+
+function handleFile(file) {
+
+    if (file.type == 'application' && file.subtype == 'json') {
+
+        let fileData = file.data;
+        loadJSON(fileData, action.updateColors, action.rejectedFile);
+
+    }
+}
+
 function addMethodsToObjects() {
 
     userInterface.generateColorContrainer = function () {
@@ -19,6 +31,35 @@ function addMethodsToObjects() {
         return this;
     }
 
+    UserInterface.prototype.loadSave = function () {
+
+    }
+
+    UserInterface.prototype.addCustomColorSet = function () {
+        // print('tak');
+        let newColorSet = [];
+
+        for (let i = 0; i < settings.colorMatrix.length - 1; i++) {
+            let picker = select(`.picker${i}`);
+
+            newColorSet.push(picker.value());
+        }
+        if (!(newColorSet[newColorSet.length - 1] == '#d3d3d3')) {
+            newColorSet.push('#D3D3D3');
+        }
+
+        settings.colorSchemes.push(newColorSet);
+        action.refreshColorSets();
+
+        let val;
+        for (let i = 0; i < settings.colorSchemes.length - 1; i++) {
+            val = `Zestaw ${i+1}`;
+        }
+        settings["currentColorScheme"] = val;
+        action.switchColorScheme(true);
+    }
+
+
     userInterface.pickColor = function (color) {
         this.pickedColor = color;
         settings.selectingStarted = false;
@@ -36,6 +77,7 @@ function addMethodsToObjects() {
     Segment.prototype.changeColor = function (val) {
         if (val) {
             this.fill = val;
+            this.oldColId = settings.colorSchemes[settings.activeColorScheme].indexOf(val);
         } else {
             this.fill = this.basicFillColor;
         }
@@ -102,6 +144,23 @@ function addMethodsToObjects() {
 
 }
 
+action.updateColors = function (givenJson) {
+
+    if (givenJson.setsOfColors.length > 2) {
+        //Mamy dodaną własną paletę
+
+        for (let i = 2; i < givenJson.setsOfColors.length; i++) {
+            settings.colorSchemes.push(givenJson.setsOfColors[i].colors);
+        }
+
+    }
+    action.refreshColorSets();
+}
+
+action.rejectedFile = function () {
+    alert("Wybrano nieprawidłowy plik!");
+}
+
 action.showModal = function (value) {
     let el;
     select(".modal-dialog").html("");
@@ -117,8 +176,9 @@ action.showModal = function (value) {
             this.refreshColorSets();
 
             el = createSelect();
-            el.option("Domyślny");
-            for (let i = 0; i < settings.colorSchemes.length - 1; i++) {
+            el.option("Kreatywny");
+            el.option("Matematyczny");
+            for (let i = 1; i < settings.colorSchemes.length - 1; i++) {
                 el.option(`Zestaw ${i+1}`);
             }
             if (settings.currentColorScheme) el.value(settings.currentColorScheme);
@@ -128,19 +188,45 @@ action.showModal = function (value) {
 
             break;
 
-        case "addColorScheme":
-            select(".modal-title").html("Dodaj nowy zestaw");
+        case 'addCustomColorSet':
+            $('#modal').modal('show');
 
-            for (let col of settings.colorSchemes[settings.activeColorScheme]) {
-                let el = createDiv();
-                el.addClass("paletteBtn");
-                el.style("background-color", col);
-                el.size(1.2 * settings.squareSize, 1.2 * settings.squareSize);
-                el.mousePressed(action.newColor(settings.colorSchemes[settings.activeColorScheme].indexOf(col)));
+            templatka = templateHTML.querySelector("#addCustomColorSet");
+            clone = templatka.content.cloneNode(true);
+            insert = clone.querySelector(".modal-content");
+            select(".modal-dialog").child(insert);
+
+            for (let i = 0; i < settings.colorMatrix.length - 1; i++) {
+
+                let col = settings.colorMatrix[i];
+
+                let num = 1 + settings.colorMatrix.indexOf(col)
+                if (num < 10) num = '0' + num.toString();
+                let el = createP(`Kolor ${num}: `);
+                // print(col)
+
+                let picker = createColorPicker(col);
+
+                picker.addClass(`colorPicker picker${settings.colorMatrix.indexOf(col)}`);
+
+                picker.parent(el);
                 select(".modal-body").child(el);
             }
+            break;
 
-            select(".modal-body").html("");
+        case 'loadColorsFromFile':
+            $('#modal').modal('show');
+
+            templatka = templateHTML.querySelector("#loadColorsFromFile");
+            clone = templatka.content.cloneNode(true);
+            insert = clone.querySelector(".modal-content");
+            select(".modal-dialog").child(insert);
+
+            let input = createFileInput(handleFile, false);
+            input.attribute("accept", "application/json");
+
+            select(".modal-body").child(input);
+
             break;
 
         default:
@@ -148,37 +234,73 @@ action.showModal = function (value) {
     }
 }
 
-action.newSet = function () {
-    action.showModal('addColorScheme')
-}
-
 action.refreshColorSets = function () {
     settings.colorsSchemesInList = [];
     for (let i = 0; i < settings.colorSchemes.length - 1; i++) {
         settings.colorsSchemesInList.push(`Zestaw ${i+1}`);
     }
+
+    // print(settings.colorsSchemesInList);
 }
 
-action.switchColorScheme = function () {
-    settings["currentColorScheme"] = select(".switchColorScheme").value();
+action.switchColorScheme = function (dontChange) {
 
-    if (settings.currentColorScheme == "Domyślny") {
+    if (dontChange != true) settings["currentColorScheme"] = select(".switchColorScheme").value();
+
+    if (settings.currentColorScheme == "Kreatywny") {
         settings.activeColorScheme = 0;
-        userInterface.generateColorContrainer()
+    } else if (settings.currentColorScheme == "Matematyczny") {
+        settings.activeColorScheme = 1;
     } else {
         let pos = settings.colorsSchemesInList.indexOf(settings.currentColorScheme);
         pos++;
 
         settings.activeColorScheme = pos;
-        userInterface.generateColorContrainer()
     }
 
+    for (let s of userInterface.board) {
+        // s.changeColor(settings.colorSchemes[settings.activeColorScheme][s.txt - 1])
+        // let oldColor = s.fill;
+        // let oldColorPos = 
+        s.changeColor(settings.colorSchemes[settings.activeColorScheme][s.oldColId])
+        // s.changeColor('red')
+        // s.display();
+
+    }
+
+    userInterface.generateColorContrainer();
 }
 
 settings.addValues({
     activeColorScheme: 0,
     selectingStarted: false
 })
+
+action.saveColorSets = function () {
+
+    let json = {};
+    let listOfSets = [];
+    let colorsToSave = [];
+
+    for (let i = 0; i < settings.colorSchemes.length; i++) {
+
+        for (let color of settings.colorSchemes[i]) {
+            if (color != "#C0C0C0") colorsToSave.push(color)
+        }
+
+        let name = `set${i}`;
+
+        listOfSets.push({
+            name: name,
+            colors: colorsToSave
+        });
+
+        colorsToSave = [];
+    }
+
+    json.setsOfColors = listOfSets;
+    saveJSON(json, "kolory");
+}
 
 function formatSingleDigitNumber(number) {
 
@@ -222,15 +344,17 @@ action.hideColorPalette = function () {
 
 action.resetBoard = function () {
     for (let s of userInterface.board) {
-        if (!(s instanceof Index)) {
-            s.changeColor();
-        }
+        s.changeColor();
     }
 }
 
 settings.colorSchemes = [
-    ['black', 'deepskyblue', 'purple', 'red', 'greenyellow', 'darkorange', '#D3D3D3']
+    ['black', 'deepskyblue', 'purple', 'red', 'greenyellow', 'darkorange', '#D3D3D3'],
+    ['black', 'deepskyblue', 'purple', 'red', 'khaki', 'saddlebrown', '#D3D3D3', '#D3D3D3']
 ];
+
+settings.colorMatrix = settings.colorSchemes[1];
+settings.colorMatrix.pop();
 
 function setup() {
     addMethodsToObjects();
