@@ -176,8 +176,9 @@ action.showModal = function (value) {
             this.refreshColorSets();
 
             el = createSelect();
-            el.option("Domyślny");
-            for (let i = 0; i < settings.colorSchemes.length - 1; i++) {
+            el.option("Kreatywny");
+            el.option("Matematyczny");
+            for (let i = 1; i < settings.colorSchemes.length - 1; i++) {
                 el.option(`Zestaw ${i+1}`);
             }
             if (settings.currentColorScheme) el.value(settings.currentColorScheme);
@@ -246,8 +247,10 @@ action.switchColorScheme = function (dontChange) {
 
     if (dontChange != true) settings["currentColorScheme"] = select(".switchColorScheme").value();
 
-    if (settings.currentColorScheme == "Domyślny") {
+    if (settings.currentColorScheme == "Kreatywny") {
         settings.activeColorScheme = 0;
+    } else if (settings.currentColorScheme == "Matematyczny") {
+        settings.activeColorScheme = 1;
     } else {
         let pos = settings.colorsSchemesInList.indexOf(settings.currentColorScheme);
         pos++;
@@ -347,7 +350,7 @@ action.resetBoard = function () {
 
 settings.colorSchemes = [
     ['black', 'deepskyblue', 'purple', 'red', 'greenyellow', 'darkorange', '#D3D3D3'],
-    ['red', 'green', 'blue', 'yellow', 'pink', 'gray', '#D3D3D3', '#D3D3D3']
+    ['black', 'deepskyblue', 'purple', 'red', 'khaki', 'saddlebrown', '#D3D3D3', '#D3D3D3']
 ];
 
 settings.colorMatrix = settings.colorSchemes[1];
