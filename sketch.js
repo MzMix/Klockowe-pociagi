@@ -80,6 +80,7 @@ function addMethodsToObjects() {
             this.oldColId = settings.colorSchemes[settings.activeColorScheme].indexOf(val);
         } else {
             this.fill = this.basicFillColor;
+            this.oldColId = NaN;
         }
     }
     Segment.prototype.basicFillColor = settings.squareFill;
