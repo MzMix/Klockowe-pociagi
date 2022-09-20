@@ -39,7 +39,7 @@ function TwoWayWhile(start, end, callback) {
 function ColorCell() {
 
     //Selection didn't start -> start new selection
-    if (!isNaN(GetSelectedColor()) && GetSelectedColor() && !SelectionStarted.value) {
+    if (!isNaN(GetSelectedColor()) && GetSelectedColor() >= 0 && !SelectionStarted.value) {
         //Start Selection
         StartSelection();
         SelectionStartPosition.value = PositionBoard.value
