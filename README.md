@@ -1,7 +1,7 @@
 
 # Description
 
-This app was created to help with conducting math classes using bricks. It is an interactive board that can be filled with different colors to represent brick "skyscrapers" with height displayed on the board cell.
+This app was created to help with conducting math classes using bricks. It is an interactive board that can be filled with different colors to represent brick "trains".
 
 This app is part of a collection of similar tools created to aid in teaching STEAM related subjects.
 

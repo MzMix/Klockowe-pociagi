@@ -5,7 +5,6 @@ import Modal from 'bootstrap/js/src/modal'
 import ManageColorPalettesModal from "./ManageColorPalettes.vue";
 
 import { useStoreWelcomeModal } from "../../stores/WelcomeStore";
-import { useBoardStore } from "../../stores/BoardStore";
 import { useMenuStore } from '../../stores/MenuStore'
 
 //Welcome modal
@@ -17,11 +16,6 @@ const { ToogleWelcome } = WelcomeModalStore;
 const MenuStore = useMenuStore();
 const { ShowLeaveWarn } = storeToRefs(MenuStore);
 const { ToogleLeaveWarn } = MenuStore;
-
-//Board
-const BoardStore = useBoardStore();
-const { ToogleBoardHighlight } = BoardStore;
-const { UseBoardHighlight } = storeToRefs(BoardStore);
 
 function showModal() {
     var CustomPaletteModal = new Modal(document.getElementById('ManageColorPalettesModal'))
@@ -46,13 +40,6 @@ function ClearData() {
         <button class="btn btn-outline-primary" @click="ToogleWelcome()">
             <span v-if="ShowWelcome">Nie pokazuj panelu powitalnego</span>
             <span v-if="!ShowWelcome">Pokazuj panel powitalny</span></button>
-
-        <hr />
-
-        <button class="btn btn-outline-primary" @click="ToogleBoardHighlight()">
-            <span v-if="UseBoardHighlight">Wyłącz podświetlanie komórek</span>
-            <span v-if="!UseBoardHighlight">Włącz podświetlanie komórek</span>
-        </button>
 
         <hr>
 

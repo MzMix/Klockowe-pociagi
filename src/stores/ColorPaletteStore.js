@@ -49,7 +49,7 @@ export const useColorPaletteStore = defineStore('ColorPaletteManager', () => {
         ColorPalettes.value.splice(id, 1);
     }
 
-    const SelectedColor = ref(useLocalStorage('SelectedColor', null));
+    const SelectedColor = ref(null);
 
     function SetColorNumber(colorNumber) {
         SelectedColor.value = colorNumber;
