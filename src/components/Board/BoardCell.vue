@@ -4,12 +4,12 @@ import { computed, ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 
 //Import Stores
-import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
-import { useBoardStore } from "../../stores/BoardStore";
+import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
+import { useBoardStore } from "@Stores/BoardStore";
 
 //Import Utils
-import { GetId, ComparePosition, ReturnCellId, CalculateBoardPosition } from "../../utils/CalculatePositionAndId";
-import { GetTextColorOnBackground } from "../../utils/TextUtilities";
+import { GetId, ComparePosition, ReturnCellId, CalculateBoardPosition } from "@Utils/CalculatePositionAndId";
+import { GetTextColorOnBackground } from "@Utils/TextUtilities";
 
 //Color & Palette
 const ColorPaletteStore = useColorPaletteStore();

@@ -1,6 +1,6 @@
 <script setup>
 //Import Components
-import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
+import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
 
 //Import from Vue
 import { inject } from 'vue';

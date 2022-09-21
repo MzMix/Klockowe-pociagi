@@ -1,10 +1,10 @@
 <script setup>
 // Import Components
-import SideMenu from './components/MainPage/SideMenu.vue'
-import WelcomeModal from './components/General/WelcomeModal.vue'
-import AppBoard from './components/Board/AppBoard.vue'
-import TopBar from './components/MainPage/TopBar.vue'
-import ToastManager from './components/Toast/ToastManager.vue'
+import SideMenu from '@MainPage/SideMenu.vue'
+import WelcomeModal from '@General/WelcomeModal.vue'
+import AppBoard from '@Board/AppBoard.vue'
+import TopBar from '@MainPage/TopBar.vue'
+import ToastManager from '@Toast/ToastManager.vue'
 
 //Import from Bootstrap
 import { Toast } from 'bootstrap'
@@ -13,7 +13,7 @@ import { Toast } from 'bootstrap'
 import { onMounted, provide } from 'vue';
 
 //Import from Pinia - Menu Store
-import { useMenuStore } from './stores/MenuStore'
+import { useMenuStore } from '@Stores/MenuStore'
 import { storeToRefs } from 'pinia';
 
 //Setup Menu Store

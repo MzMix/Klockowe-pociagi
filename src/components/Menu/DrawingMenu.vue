@@ -5,11 +5,11 @@ import { get } from '@vueuse/core';
 import { inject } from 'vue';
 
 //Import component
-import InputSelectArray from '../General/InputSelectArray.vue';
-import bsTooltip from '../General/bsTooltip.vue';
+import InputSelectArray from '@General/InputSelectArray.vue';
+import bsTooltip from '@General/bsTooltip.vue';
 
 //Import stores from Pinia
-import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
+import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
 
 //Color & Palette
 const ColorPaletteStore = useColorPaletteStore();

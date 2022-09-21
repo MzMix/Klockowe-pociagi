@@ -1,9 +1,9 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 
-import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
+import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
 
-import { DonloadContent } from '../../utils/SharingUtilities';
+import { DonloadContent } from '@Utils/SharingUtilities';
 
 //Color & Palette
 const ColorPaletteStore = useColorPaletteStore();

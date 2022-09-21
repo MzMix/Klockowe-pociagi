@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from "vue";
-import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
+import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
 
 const ColorPaletteStore = useColorPaletteStore();
 const { SetColorNumber, InterpreteColorValue } = ColorPaletteStore;

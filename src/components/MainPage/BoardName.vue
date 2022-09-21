@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia";
-import { useBoardStore } from "../../stores/BoardStore";
+import { useBoardStore } from "@Stores/BoardStore";
 
 const BoardStore = useBoardStore();
 const { BoardName } = storeToRefs(BoardStore);
