@@ -17,15 +17,14 @@ document.addEventListener("DOMContentLoaded", function () {
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="WelcomeModalLabel">Klockiem w matematykę! - <span class="text-purple">W
-                            układzie z
-                            klockami</span></h5>
+                    <h5 class="modal-title" id="WelcomeModalLabel">Klockiem w matematykę! - <span
+                            class="text-purple">Klockowe pociągi</span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
                     <p>
-                        Jest to pierwsza aplikacja z serii "Klockiem w matematykę!".
+                        Jest to trzecia aplikacja z serii "Klockiem w matematykę!".
                     </p>
 
                     <hr />
@@ -34,41 +33,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     <ol>
 
-                        <li>Wypełnianie planszy kolorami przedstawiającymi klocki</li>
+                        <li>Wypełnianie planszy kolorami przedstawiającymi klockowe wieżowce</li>
 
-                        <li>Zmiana wybranego zestawu kolorów (domyślnie dostępne zestawy „Kreatyny” i
-                            „Matematyczny”)
-                        </li>
-
-                        <li>Przełączanie widoku osi symetrii pozwalających podzielić planszę na ćwiartki
-                        </li>
-
-                        <li>Zmianę sposobu opisu pól na planszy:
-                            <ol type="a">
-                                <li>Numeracja - dwie współrzędne liczbowe na wzór układu współrzędnych
-                                </li>
-                                <li>Adresowanie – para litera i liczba na wzór arkusza kalkulacyjnego
-                                </li>
-                                <li>Kolory – para dwóch kolorów</li>
-                                <li>Brak – wyłączenie opisu pól</li>
-                            </ol>
-                        </li>
-
-                        <li>Zmianę zawartości pól:
-                            <ol type="a">
-                                <li>Brak – pola na planszy nie mają zawartości</li>
-                                <li>Numeracja – każde pole ma przypisaną wartość od 1 do 100</li>
-                                <li>Adresowanie – każde pole ma przypisany adres (para litera i liczba)
-                                </li>
-                            </ol>
+                        <li>Zmiana wybranego zestawu kolorów (domyślnie dostępne zestawy „Kreatyny” i „Matematyczny”)
                         </li>
 
                         <li>Zapis widoku planszy jako grafiki do pliku .png</li>
-                        <li>Kodowanie rysunku – wyświetlenie listy użytych kolorów i listy pól
-                            wypełnionych
-                            tym
-                            kolorem
-                            (sposób kodowania zależy od wybranego opisu pól na planszy)</li>
+
                         <li>Modyfikowanie zestawów kolorów:
                             <ol type="a">
                                 <li>Dodawanie własnego zestawu z własną nazwą i listą kolorów</li>
