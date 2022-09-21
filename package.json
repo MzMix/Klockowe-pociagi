@@ -10,6 +10,7 @@
     "testBuild": "vite build && vite preview"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.6",
     "@vueuse/core": "^9.0.2",
     "bootstrap": "^5.1.3",
     "bootstrap-icons": "^1.9.1",

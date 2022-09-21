@@ -1,6 +1,6 @@
 <script setup>
-import { useMenuStore } from "../../stores/MenuStore";
-import BoardName from "./BoardName.vue";
+import { useMenuStore } from "@Stores/MenuStore";
+import BoardName from "@MainPage/BoardName.vue";
 
 const MenuStore = useMenuStore();
 const { SwitchMenu } = MenuStore;

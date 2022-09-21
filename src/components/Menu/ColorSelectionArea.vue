@@ -4,10 +4,10 @@ import { storeToRefs } from 'pinia';
 import { computed, inject } from 'vue';
 
 //Import components
-import ColorSelectButton from './ColorSelectButton.vue'
+import ColorSelectButton from '@Menu/ColorSelectButton.vue'
 
 //Import Color Palette Store
-import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
+import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
 
 //Color Palette Store
 const ColorPaletteStore = useColorPaletteStore();

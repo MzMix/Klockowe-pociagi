@@ -1,18 +1,22 @@
 <script setup>
+//Import from Pinia, Vue
 import { ref } from "vue";
 import { storeToRefs } from 'pinia'
 
-import ExportColorPalettes from './ExportColorPalettes.vue';
-import AddCustomColorPalette from './AddCustomColorPalette.vue';
-import EditColorPalette from './EditColorPalette.vue';
-import FileUpload from "./FileUpload.vue";
+//Import Components
+import ExportColorPalettes from '@Menu/ExportColorPalettes.vue';
+import AddCustomColorPalette from '@Menu/AddCustomColorPalette.vue';
+import EditColorPalette from '@Menu/EditColorPalette.vue';
+import FileUpload from "@Menu/FileUpload.vue";
+import bsTooltip from "@General/bsTooltip.vue";
 
-import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
+//Import Stores
+import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
 
+//Palette Store
 const ColorPaletteStore = useColorPaletteStore();
 const { RemovePalette } = ColorPaletteStore;
-
-const { ColorPalettes, BoardDefaultColor } = storeToRefs(ColorPaletteStore);
+const { ColorPalettes, BoardDefaultColor, AppName } = storeToRefs(ColorPaletteStore);
 
 const AddPaletteKey = ref(0);
 const EditColorPaletteKey = ref(0);
@@ -64,6 +68,9 @@ function HandleEditPalette(value) {
                     <div v-for="cp in ColorPalettes" :key="cp.value" class="list-group-item colorPaletteEntry">
 
                         <div class="descriptionEntry">
+                            <bsTooltip v-if="cp.appOrigin != AppName" title="Ta paleta pochodzi z innej aplikacji!">
+                                <i class="bi bi-exclamation-triangle-fill" :style="{color: 'red'}"></i>
+                            </bsTooltip>
                             {{ cp.text }}:
                         </div>
 

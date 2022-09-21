@@ -4,5 +4,15 @@
     ],
     "compilerOptions": {
       "jsx": "preserve",
+      "baseUrl": "./",
+      "paths": {
+        "@Board/*": ["./src/components/Board/*"],
+        "@General/*": ["./src/components/General/*"],
+        "@MainPage/*": ["./src/components/MainPage/*"],
+        "@Menu/*": ["./src/components/Menu/*"],
+        "@Toast/*": ["./src/components/Toast/*"],
+        "@Stores/*": ["./src/stores/*"],
+        "@Utils/*": ["./src/utils/*"],
+      }
     }
 }

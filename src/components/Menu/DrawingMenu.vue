@@ -5,15 +5,16 @@ import { get } from '@vueuse/core';
 import { inject } from 'vue';
 
 //Import component
-import InputSelectArray from '../General/InputSelectArray.vue';
+import InputSelectArray from '@General/InputSelectArray.vue';
+import bsTooltip from '@General/bsTooltip.vue';
 
 //Import stores from Pinia
-import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
+import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
 
 //Color & Palette
 const ColorPaletteStore = useColorPaletteStore();
-const { SetPalette } = ColorPaletteStore;
-const { ColorPalettes, SelectedPalette } = storeToRefs(ColorPaletteStore);
+const { SetPalette, GetSelectedPaletteOrigin } = ColorPaletteStore;
+const { ColorPalettes, SelectedPalette, AppName } = storeToRefs(ColorPaletteStore);
 
 //Inject Toast trigger
 const ShowToast = inject('ToastTrigger');
@@ -30,6 +31,9 @@ const ShowToast = inject('ToastTrigger');
         <InputSelectArray @action="(value) => SetPalette(value)" :options="get(ColorPalettes)"
             :selected-value="get(SelectedPalette)" aria-label="Wybór palety kolorów">
             <i class="bi bi-palette"></i> | Zmiana palety kolorów
+            <bsTooltip v-if="GetSelectedPaletteOrigin() != AppName" title="Ta paleta pochodzi z innej aplikacji!">
+                <i class="bi bi-exclamation-triangle-fill" :style="{color: 'red'}"></i>
+            </bsTooltip>
         </InputSelectArray>
 
         <!-- Clear board -->

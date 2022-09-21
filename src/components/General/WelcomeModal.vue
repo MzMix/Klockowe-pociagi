@@ -1,6 +1,6 @@
 <script setup>
 import Modal from 'bootstrap/js/src/modal'
-import { useStoreWelcomeModal } from "../../stores/WelcomeStore";
+import { useStoreWelcomeModal } from "@Stores/WelcomeStore";
 
 const store = useStoreWelcomeModal();
 const { ShowWelcome, DesibleWelcome } = store;

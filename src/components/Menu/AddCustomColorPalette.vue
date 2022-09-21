@@ -5,7 +5,7 @@ import { get } from '@vueuse/core';
 import { ColorPicker } from 'vue-color-kit'
 import 'vue-color-kit/dist/vue-color-kit.css'
 
-import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
+import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
 
 const ColorPaletteStore = useColorPaletteStore();
 const { AddPalette } = ColorPaletteStore;

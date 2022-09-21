@@ -1,6 +1,6 @@
 <script setup>
 //Import Components
-import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
+import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
 
 //Import from Vue
 import { inject } from 'vue';
@@ -37,7 +37,13 @@ function ReadFile(file) {
 function ProcessJSON(data) {
 
     for (const cp of data) {
-        AddPalette(cp.text, cp.colorSet);
+
+        if (cp.appOrigin) {
+            AddPalette(cp.text, cp.colorSet, cp.appOrigin);
+        } else {
+            AddPalette(cp.text, cp.colorSet, 'UNKNOWN');
+        }
+
     }
 
     ShowToast('#ColorPalettesAdded');

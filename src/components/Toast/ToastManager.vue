@@ -6,7 +6,7 @@
 import bsToast from './bsToast.vue';
 
 //Import Symetry Store form Pinia
-import { useBoardStore } from "../../stores/BoardStore";
+import { useBoardStore } from "@Stores/BoardStore";
 
 //Board Store
 const BoardStore = useBoardStore();

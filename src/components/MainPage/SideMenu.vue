@@ -1,10 +1,10 @@
 <script setup>
-import ColorSelectionArea from '../Menu/ColorSelectionArea.vue'
-import SettingsMenu from '../Menu/SettingsMenu.vue';
-import DrawingMenu from '../Menu/DrawingMenu.vue'
-import SharingMenu from '../Menu/SharingMenu.vue';
+import ColorSelectionArea from '@Menu/ColorSelectionArea.vue'
+import SettingsMenu from '@Menu/SettingsMenu.vue';
+import DrawingMenu from '@Menu/DrawingMenu.vue'
+import SharingMenu from '@Menu/SharingMenu.vue';
 
-import { useMenuStore } from "../../stores/MenuStore";
+import { useMenuStore } from "@Stores/MenuStore";
 import { storeToRefs } from 'pinia';
 
 const MenuStore = useMenuStore();

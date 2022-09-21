@@ -3,12 +3,12 @@
 import ExportColorPalettes from './ExportColorPalettes.vue';
 
 //Import Utils
-import { DownloadCanvas, GetDateForFileName } from '../../utils/SharingUtilities';
+import { DownloadCanvas, GetDateForFileName } from '@Utils/SharingUtilities';
 import html2canvas from 'html2canvas';
 
 //Import Pinia Store
 import { storeToRefs } from "pinia";
-import { useBoardStore } from "../../stores/BoardStore";
+import { useBoardStore } from "@Stores/BoardStore";
 
 //Board Store
 const BoardStore = useBoardStore();
