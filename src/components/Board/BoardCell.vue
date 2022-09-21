@@ -24,7 +24,7 @@ const props = defineProps({
     cellId: Number,
 });
 
-const content = ref('');
+const content = ref(false);
 
 //callback: (i)=>{}
 function TwoWayWhile(start, end, callback) {
@@ -48,7 +48,7 @@ function ColorCell() {
         let selectedColor = GetSelectedColor();
         if (selectedColor == undefined || selectedColor == null) return;
         SaveToBoard(props.cellId, selectedColor)
-        content.value = "S";
+        content.value = true;
     }
     //selection did start -> end selection
     else {
@@ -107,7 +107,7 @@ const TextColor = computed(() => {
 })
 
 watch(SelectionStarted, () => {
-    if (!SelectionStarted.value) content.value = "";
+    if (!SelectionStarted.value) content.value = false;
 })
 </script>
 
@@ -115,7 +115,7 @@ watch(SelectionStarted, () => {
     <div class="squareOnBoard border-top border-dark border-start" @click="ColorCell()"
         @contextmenu.prevent="SaveToBoard(props.cellId, GetBoardDefaultColorId())"
         :style="{ backgroundColor: CellColor, color: TextColor }" :id="GetId(PositionBoard)">
-        {{ content }}
+        <i v-if="content" class="bi bi-pin-angle"></i>
     </div>
 </template >
 
