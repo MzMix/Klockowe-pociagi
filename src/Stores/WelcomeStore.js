@@ -1,5 +1,5 @@
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
 import { useLocalStorage } from '@vueuse/core';
 
 export const useStoreWelcomeModal = defineStore('WelcomeMenager', () => {
@@ -15,7 +15,7 @@ export const useStoreWelcomeModal = defineStore('WelcomeMenager', () => {
     }
 
     function ToogleWelcome() {
-        ShowWelcome.value = !ShowWelcome.value
+        ShowWelcome.value = !ShowWelcome.value;
     }
 
     return {

@@ -1,19 +1,21 @@
 <script setup>
 //Import from Vue, Bootstrap
 import { onMounted } from "vue";
-import { Tooltip } from 'bootstrap'
+import { Tooltip } from 'bootstrap';
+
 onMounted(() => {
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
     // eslint-disable-next-line no-unused-vars
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl))
-})
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl));
+});
+
 const props = defineProps({
     placement: {
         type: String,
         required: false,
         default: 'right',
         validator(value) {
-            return ['top', 'right', 'bottom', 'left'].includes(value)
+            return ['top', 'right', 'bottom', 'left'].includes(value);
         }
     },
     title: {
@@ -21,7 +23,8 @@ const props = defineProps({
         required: true,
         default: 'Tooltip'
     }
-})
+});
+
 </script>
     
 <template>

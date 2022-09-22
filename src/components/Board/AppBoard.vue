@@ -1,9 +1,9 @@
 <script setup>
 //Import components
-import BoardCell from '@Board/BoardCell.vue'
+import BoardCell from '@Board/BoardCell.vue';
 
 //Import from Vue
-import { ref } from 'vue'
+import { ref } from 'vue';
 
 const Board = ref(null);
 

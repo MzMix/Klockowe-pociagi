@@ -1,7 +1,7 @@
 <script setup>
-import ColorSelectionArea from '@Menu/ColorSelectionArea.vue'
+import ColorSelectionArea from '@Menu/ColorSelectionArea.vue';
 import SettingsMenu from '@Menu/SettingsMenu.vue';
-import DrawingMenu from '@Menu/DrawingMenu.vue'
+import DrawingMenu from '@Menu/DrawingMenu.vue';
 import SharingMenu from '@Menu/SharingMenu.vue';
 
 import { useMenuStore } from "@Stores/MenuStore";

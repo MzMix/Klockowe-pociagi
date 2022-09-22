@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from "vue";
-import { storeToRefs } from 'pinia'
+import { storeToRefs } from 'pinia';
 import { get } from '@vueuse/core';
-import { ColorPicker } from 'vue-color-kit'
-import 'vue-color-kit/dist/vue-color-kit.css'
+import { ColorPicker } from 'vue-color-kit';
+import 'vue-color-kit/dist/vue-color-kit.css';
 
 import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
 
