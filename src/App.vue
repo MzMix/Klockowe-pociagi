@@ -1,19 +1,19 @@
 <script setup>
 // Import Components
-import SideMenu from '@MainPage/SideMenu.vue'
-import WelcomeModal from '@General/WelcomeModal.vue'
-import AppBoard from '@Board/AppBoard.vue'
-import TopBar from '@MainPage/TopBar.vue'
-import ToastManager from '@Toast/ToastManager.vue'
+import SideMenu from '@MainPage/SideMenu.vue';
+import WelcomeModal from '@General/WelcomeModal.vue';
+import AppBoard from '@Board/AppBoard.vue';
+import TopBar from '@MainPage/TopBar.vue';
+import ToastManager from '@Toast/ToastManager.vue';
 
 //Import from Bootstrap
-import { Toast } from 'bootstrap'
+import { Toast } from 'bootstrap';
 
 //Import from Vue
 import { onMounted, provide } from 'vue';
 
 //Import from Pinia - Menu Store
-import { useMenuStore } from '@Stores/MenuStore'
+import { useMenuStore } from '@Stores/MenuStore';
 import { storeToRefs } from 'pinia';
 
 //Setup Menu Store
@@ -28,7 +28,7 @@ onMounted(() => {
   window.onbeforeunload = function () {
     return 'Are you sure you want to leave?';
   };
-})
+});
 
 //Provide function for triggering toasts
 provide('ToastTrigger', (querry, options = {
@@ -37,12 +37,12 @@ provide('ToastTrigger', (querry, options = {
   delay: 5000
 }) => {
 
-  const toastElList = document.querySelectorAll(querry)
-  const toastList = [...toastElList].map(toastEl => new Toast(toastEl, options))
+  const toastElList = document.querySelectorAll(querry);
+  const toastList = [...toastElList].map(toastEl => new Toast(toastEl, options));
 
   toastList.forEach(toast => {
-    toast.show()
-  })
+    toast.show();
+  });
 });
 
 </script>

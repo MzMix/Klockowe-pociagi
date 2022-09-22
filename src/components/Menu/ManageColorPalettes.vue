@@ -1,7 +1,7 @@
 <script setup>
 //Import from Pinia, Vue
 import { ref } from "vue";
-import { storeToRefs } from 'pinia'
+import { storeToRefs } from 'pinia';
 
 //Import Components
 import ExportColorPalettes from '@Menu/ExportColorPalettes.vue';

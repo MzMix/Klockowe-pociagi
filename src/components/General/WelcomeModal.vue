@@ -1,5 +1,5 @@
 <script setup>
-import Modal from 'bootstrap/js/src/modal'
+import Modal from 'bootstrap/js/src/modal';
 import { useStoreWelcomeModal } from "@Stores/WelcomeStore";
 
 const store = useStoreWelcomeModal();
@@ -7,7 +7,7 @@ const { ShowWelcome, DesibleWelcome } = store;
 
 document.addEventListener("DOMContentLoaded", function () {
     if (!ShowWelcome) return;
-    var WelcomeModal = new Modal(document.getElementById('WelcomeModal'))
+    var WelcomeModal = new Modal(document.getElementById('WelcomeModal'));
     WelcomeModal.show();
 });
 </script>

@@ -1,6 +1,6 @@
 import { useLocalStorage } from '@vueuse/core';
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
 export const useColorPaletteStore = defineStore('ColorPaletteManager', () => {
 

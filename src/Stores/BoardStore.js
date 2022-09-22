@@ -1,6 +1,6 @@
 import { useLocalStorage } from '@vueuse/core';
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
 export const useBoardStore = defineStore('BoardManager', () => {
 
@@ -29,7 +29,7 @@ export const useBoardStore = defineStore('BoardManager', () => {
 
     function StartSelection(id) {
         SelectionStarted.value = true;
-        SelectionStartPosition.value = id
+        SelectionStartPosition.value = id;
     }
 
     function EndSelection() {

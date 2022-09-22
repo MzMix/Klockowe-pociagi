@@ -42,12 +42,12 @@ function ColorCell() {
     if (!isNaN(GetSelectedColor()) && GetSelectedColor() >= 0 && !SelectionStarted.value) {
         //Start Selection
         StartSelection();
-        SelectionStartPosition.value = PositionBoard.value
+        SelectionStartPosition.value = PositionBoard.value;
 
         //Color Starting Cell
         let selectedColor = GetSelectedColor();
         if (selectedColor == undefined || selectedColor == null) return;
-        SaveToBoard(props.cellId, selectedColor)
+        SaveToBoard(props.cellId, selectedColor);
         content.value = true;
     }
     //selection did start -> end selection
@@ -58,7 +58,7 @@ function ColorCell() {
         //Color Ending Cell
         let selectedColor = GetSelectedColor();
         if (selectedColor == undefined || selectedColor == null) return;
-        SaveToBoard(props.cellId, selectedColor)
+        SaveToBoard(props.cellId, selectedColor);
 
         switch (ComparePosition(PositionBoard.value, SelectionStartPosition.value)) {
 
@@ -71,8 +71,8 @@ function ColorCell() {
                     SaveToBoard(ReturnCellId({
                         x: PositionBoard.value.x,
                         y: i
-                    }), selectedColor)
-                })
+                    }), selectedColor);
+                });
                 break;
 
             case 'SAME_Y':
@@ -81,7 +81,7 @@ function ColorCell() {
                     SaveToBoard(ReturnCellId({
                         x: i,
                         y: PositionBoard.value.y
-                    }), selectedColor)
+                    }), selectedColor);
                 });
 
                 break;
@@ -104,11 +104,11 @@ const CellColor = computed(() => {
 
 const TextColor = computed(() => {
     return GetTextColorOnBackground(CellColor.value);
-})
+});
 
 watch(SelectionStarted, () => {
     if (!SelectionStarted.value) content.value = false;
-})
+});
 </script>
 
 <template>

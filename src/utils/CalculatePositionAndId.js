@@ -45,7 +45,7 @@ export function CalculateBoardPosition(id) {
  * @return {string}
 */
 export function GetId(position) {
-    return `(${position.x}, ${position.y})`
+    return `(${position.x}, ${position.y})`;
 }
 
 /**

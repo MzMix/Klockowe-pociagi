@@ -15,7 +15,7 @@ const props = defineProps({
         require: false,
         type: Boolean
     }
-})
+});
 
 function ExportColorPalettes() {
 
@@ -24,7 +24,7 @@ function ExportColorPalettes() {
 
     customPaletes.forEach(palette => {
         palette.appOrigin = AppName.value;
-    })
+    });
 
     DonloadContent(out, `palety-eksport-${AppName.value}.json`, 'text/plain');
 }
