@@ -68,6 +68,10 @@ export const useColorPaletteStore = defineStore('ColorPaletteManager', () => {
         return ColorPalettes.value[SelectedPalette.value].colorSet;
     }
 
+    function GetSelectedPaletteLength() {
+        return ColorPalettes.value[SelectedPalette.value].colorSet.length;
+    }
+
     function GetSelectedPaletteOrigin() {
         return ColorPalettes.value[SelectedPalette.value].appOrigin;
     }
@@ -101,6 +105,7 @@ export const useColorPaletteStore = defineStore('ColorPaletteManager', () => {
         SetColorNumber,
         GetSelectedColor,
         GetBoardDefaultColorId,
+        GetSelectedPaletteLength,
         GetSelectedPaletteOrigin,
 
         InterpreteColorValue,

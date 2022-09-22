@@ -1,7 +1,7 @@
 <script setup>
 //Import from Pinia, Vue
 import { storeToRefs } from 'pinia';
-import { computed, inject } from 'vue';
+import { computed, inject, onMounted } from 'vue';
 
 //Import components
 import ColorSelectButton from '@Menu/ColorSelectButton.vue';
@@ -11,13 +11,28 @@ import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
 
 //Color Palette Store
 const ColorPaletteStore = useColorPaletteStore();
-const { ColorPalettes, SelectedPalette } = storeToRefs(ColorPaletteStore);
+const { SetColorNumber, GetSelectedPaletteLength } = ColorPaletteStore;
+const { ColorPalettes, SelectedPalette, SelectedColor } = storeToRefs(ColorPaletteStore);
 
 //Inject Toast trigger
 const ShowToast = inject('ToastTrigger');
 
 const colorSet = computed(() => {
     return ColorPalettes.value[SelectedPalette.value].colorSet;
+});
+
+onMounted(() => {
+    document.addEventListener('wheel', (event) => {
+        if (event.deltaY < 0) {
+            //Up
+            let newVal = (SelectedColor.value + 1) % GetSelectedPaletteLength();
+            SetColorNumber(newVal);
+        } else if (event.deltaY > 0) {
+            //Down
+            let newVal = (SelectedColor.value - 1) >= 0 ? (SelectedColor.value - 1) : GetSelectedPaletteLength() - 1;
+            SetColorNumber(newVal);
+        }
+    });
 });
 
 </script>
