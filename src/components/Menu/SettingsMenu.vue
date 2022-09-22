@@ -14,8 +14,8 @@ const { ToogleWelcome } = WelcomeModalStore;
 
 //Menu
 const MenuStore = useMenuStore();
-const { ShowLeaveWarn } = storeToRefs(MenuStore);
-const { ToogleLeaveWarn } = MenuStore;
+const { ShowLeaveWarn, UseColorIndicator } = storeToRefs(MenuStore);
+const { ToogleLeaveWarn, ToogleColorIndicator } = MenuStore;
 
 function showModal() {
     let CustomPaletteModal = new Modal(document.getElementById('ManageColorPalettesModal'));
@@ -34,6 +34,13 @@ function ClearData() {
         <h3 class="mt-2 mb-4">Ustawienia <i class="bi bi-gear"></i></h3>
 
         <button class="btn btn-outline-primary" @click="showModal()">Zarządzaj paletami kolorów</button>
+
+        <hr />
+
+        <button class="btn btn-outline-primary" @click="ToogleColorIndicator()">
+            <span v-if="UseColorIndicator">Wyłącz podgląd koloru</span>
+            <span v-if="!UseColorIndicator">Włącz podgląd koloru</span>
+        </button>
 
         <hr />
 

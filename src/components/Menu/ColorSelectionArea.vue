@@ -21,18 +21,29 @@ const colorSet = computed(() => {
     return ColorPalettes.value[SelectedPalette.value].colorSet;
 });
 
+const ShowColorIndicator = inject('ShowColorIndicator');
+
 onMounted(() => {
+
     document.addEventListener('wheel', (event) => {
+
         if (event.deltaY < 0) {
             //Up
             let newVal = (SelectedColor.value + 1) % GetSelectedPaletteLength();
             SetColorNumber(newVal);
+
         } else if (event.deltaY > 0) {
             //Down
             let newVal = (SelectedColor.value - 1) >= 0 ? (SelectedColor.value - 1) : GetSelectedPaletteLength() - 1;
             SetColorNumber(newVal);
+            
         }
+
     });
+
+    ShowColorIndicator();
+
+
 });
 
 </script>

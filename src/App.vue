@@ -5,20 +5,21 @@ import WelcomeModal from '@General/WelcomeModal.vue';
 import AppBoard from '@Board/AppBoard.vue';
 import TopBar from '@MainPage/TopBar.vue';
 import ToastManager from '@Toast/ToastManager.vue';
+import ColorIndicator from '@General/ColorIndicator.vue';
 
 //Import from Bootstrap
 import { Toast } from 'bootstrap';
 
-//Import from Vue
+//Import from Vue. Pinia
 import { onMounted, provide } from 'vue';
-
-//Import from Pinia - Menu Store
-import { useMenuStore } from '@Stores/MenuStore';
 import { storeToRefs } from 'pinia';
+
+//Import Menu Store
+import { useMenuStore } from '@Stores/MenuStore';
 
 //Setup Menu Store
 const MenuStore = useMenuStore();
-const { ShowLeaveWarn } = storeToRefs(MenuStore);
+const { ShowLeaveWarn, UseColorIndicator } = storeToRefs(MenuStore);
 
 //Add warning on leaving
 onMounted(() => {
@@ -30,7 +31,7 @@ onMounted(() => {
   };
 });
 
-//Provide function for triggering toasts
+//Provide function to trigger toasts
 provide('ToastTrigger', (querry, options = {
   animation: true,
   autohide: true,
@@ -43,6 +44,23 @@ provide('ToastTrigger', (querry, options = {
   toastList.forEach(toast => {
     toast.show();
   });
+});
+
+//Provide function to show Color Indicator
+provide('ShowColorIndicator', () => {
+
+  if (!UseColorIndicator.value) return;
+
+  let classList = document.getElementById('Colorindicator').classList;
+
+  classList.remove('d-none');
+  classList.add('d-block');
+
+  setTimeout(() => {
+    classList.remove('d-block');
+    classList.add('d-none');
+  }, 3000);
+
 });
 
 </script>
@@ -68,6 +86,8 @@ provide('ToastTrigger', (querry, options = {
     </div>
 
     <ToastManager />
+
+    <ColorIndicator v-if="UseColorIndicator" />
 
   </div>
 

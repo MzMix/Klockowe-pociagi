@@ -8,6 +8,8 @@ export const useMenuStore = defineStore('MenuMenager', () => {
 
     const ShowLeaveWarn = ref(useLocalStorage("ShowLeaveWarn", true));
 
+    const UseColorIndicator = ref(useLocalStorage('UseColorIndicator', true));
+
     function SwitchMenu(value) {
         if (value >= 0 && value <= 3) MenuOpened.value = value;
         else console.warn("Attempt of opening non existing menu!");
@@ -26,12 +28,18 @@ export const useMenuStore = defineStore('MenuMenager', () => {
 
     }
 
+    function ToogleColorIndicator() {
+        UseColorIndicator.value = !UseColorIndicator.value;
+    }
+
     return {
         MenuOpened,
         ShowLeaveWarn,
+        UseColorIndicator,
 
         SwitchMenu,
-        ToogleLeaveWarn
+        ToogleLeaveWarn,
+        ToogleColorIndicator
     };
 
 });
