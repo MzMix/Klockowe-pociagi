@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 module.exports = {
     "env": {
         "browser": true,
@@ -15,6 +16,9 @@ module.exports = {
         "vue"
     ],
     "rules": {
-        "no-console": ["error", { allow: ["warn", "error"] }]
+        "no-console": ["error", { allow: ["warn", "error"] }],
+        "no-extra-semi": ["error"],
+        "semi": ["error", "always"],
+        "camelcase": ["error", { "properties": "always" }]
     }
-}
+};
